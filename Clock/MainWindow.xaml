@@ -1,0 +1,54 @@
+﻿<Window x:Class="Clock.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Clock"
+        xmlns:converters="clr-namespace:Clock.Converters"
+        mc:Ignorable="d"
+        WindowStyle="SingleBorderWindow"
+        ResizeMode="CanResize"
+        Title="Current Date/Time" Height="350" Width="525">
+    <Window.Resources>
+        <converters:StringToResourceImageConverter x:Key="StringToResourceImageConverter" />
+    </Window.Resources>
+    <Window.Background>
+        <ImageBrush ImageSource="{Binding Path=BackgroundImagePath, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToResourceImageConverter}}" />
+    </Window.Background>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Viewbox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <StackPanel Orientation="Vertical">
+                <Label Foreground="White" FontWeight="Bold" HorizontalAlignment="Center" Content="{Binding Path=Date, UpdateSourceTrigger=PropertyChanged}" />
+                <Label Foreground="White" FontWeight="Bold" HorizontalAlignment="Center" Content="{Binding Path=Time, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+        </Viewbox>
+
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Foreground="White" FontWeight="Bold">Date Format:</Label>
+            <ComboBox Name="cmbDateFormat"  Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=DateFormats, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Key" SelectedValuePath="Value" SelectedValue="{Binding Path=SelectedDateFormat, UpdateSourceTrigger=PropertyChanged}" />
+            <Label Grid.Row="1" Grid.Column="0" Foreground="White" FontWeight="Bold">Hour Format:</Label>
+            <ComboBox Name="cmbHourFormat" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Path=TimeFormats, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Key" SelectedValuePath="Value" SelectedValue="{Binding Path=SelectedTimeFormat, UpdateSourceTrigger=PropertyChanged}" />
+
+        </Grid>
+    </Grid>
+</Window>
