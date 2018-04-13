@@ -11,6 +11,7 @@
         Title="Current Date/Time" Height="350" Width="525">
     <Window.Resources>
         <converters:StringToResourceImageConverter x:Key="StringToResourceImageConverter" />
+        <converters:BooleanVisibilityConverter x:Key="BooleanVisibilityConverter" />
     </Window.Resources>
     <Window.Background>
         <ImageBrush ImageSource="{Binding Path=BackgroundImagePath, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToResourceImageConverter}}" />
@@ -34,6 +35,8 @@
             </StackPanel>
         </Viewbox>
 
+        <ToggleButton x:Name="btnHelp" Grid.Row="1" Grid.Column="1" Content="?" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="25" Opacity="50" />
+
         <Grid Grid.Row="1" Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -44,10 +47,10 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Foreground="White" FontWeight="Bold">Date Format:</Label>
-            <ComboBox Name="cmbDateFormat"  Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=DateFormats, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Key" SelectedValuePath="Value" SelectedValue="{Binding Path=SelectedDateFormat, UpdateSourceTrigger=PropertyChanged}" />
-            <Label Grid.Row="1" Grid.Column="0" Foreground="White" FontWeight="Bold">Hour Format:</Label>
-            <ComboBox Name="cmbHourFormat" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Path=TimeFormats, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Key" SelectedValuePath="Value" SelectedValue="{Binding Path=SelectedTimeFormat, UpdateSourceTrigger=PropertyChanged}" />
+            <Label Grid.Row="0" Grid.Column="0" Foreground="White" FontWeight="Bold" Visibility="{Binding ElementName=btnHelp, Path=IsChecked, Converter={StaticResource BooleanVisibilityConverter}}">[D]ate Format:</Label>
+            <ComboBox Name="cmbDateFormat"  Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=DateFormats, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ElementName=btnHelp, Path=IsChecked, Converter={StaticResource BooleanVisibilityConverter}}" DisplayMemberPath="Key" SelectedValuePath="Value" SelectedValue="{Binding Path=SelectedDateFormat, UpdateSourceTrigger=PropertyChanged}" />
+            <Label Grid.Row="1" Grid.Column="0" Foreground="White" FontWeight="Bold" Visibility="{Binding ElementName=btnHelp, Path=IsChecked, Converter={StaticResource BooleanVisibilityConverter}}">[H]our Format:</Label>
+            <ComboBox Name="cmbHourFormat" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Path=TimeFormats, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ElementName=btnHelp, Path=IsChecked, Converter={StaticResource BooleanVisibilityConverter}}" DisplayMemberPath="Key" SelectedValuePath="Value" SelectedValue="{Binding Path=SelectedTimeFormat, UpdateSourceTrigger=PropertyChanged}" />
 
         </Grid>
     </Grid>

@@ -25,7 +25,10 @@ namespace Clock
         {
             InitializeComponent();
 
-            this.DataContext = new ClockViewModel();
+            var context = new ClockViewModel();
+
+            DataContext = context;
+            KeyUp += context.WindowKeyPress;
         }
     }
 }

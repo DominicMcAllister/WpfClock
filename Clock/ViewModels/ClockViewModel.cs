@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using System.Windows.Threading;
 using TimeZoneNames;
 
@@ -37,7 +38,6 @@ namespace Clock.ViewModels
             }
 
             SelectedTimeFormat = timeFormat;
-            
 
             _timer = new DispatcherTimer();
             _timer.Interval = new TimeSpan(0, 0, 1);
@@ -82,7 +82,7 @@ namespace Clock.ViewModels
                     new KeyValuePair<string, string>("MM/DD/YYYY", "dddd MM/dd/yyyy"),
                     new KeyValuePair<string, string>("DD/MM/YYYY", "dddd dd/MM/yyyy"),
                     new KeyValuePair<string, string>("YYYY/MM/DD", "dddd yyyy/MM/dd"),
-                    new KeyValuePair<string, string>("YYYY/DD/MM", "dddd yyyy/dd/mm"),
+                    new KeyValuePair<string, string>("YYYY/DD/MM", "dddd yyyy/dd/MM"),
                 };
             }
         }
@@ -171,6 +171,27 @@ namespace Clock.ViewModels
             {
                 BackgroundImagePath = "Images/night.jpg";
             }
+        }
+
+        internal void WindowKeyPress(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.D:
+                case Key.F:
+                    var indexOfCurrentDateFormat = this.DateFormats.IndexOf(this.DateFormats.FirstOrDefault(d => d.Value == this.SelectedDateFormat));
+                    var newIndex = indexOfCurrentDateFormat == this.DateFormats.Count - 1 ? 0 : indexOfCurrentDateFormat + 1;
+                    this.SelectedDateFormat = this.DateFormats[newIndex].Value;
+
+                    break;
+                case Key.T:
+                case Key.H:
+                    var indexOfCurrentTimeFormat = this.TimeFormats.IndexOf(this.TimeFormats.FirstOrDefault(d => d.Value == this.SelectedTimeFormat));
+                    var newIndex2 = indexOfCurrentTimeFormat == this.TimeFormats.Count - 1 ? 0 : indexOfCurrentTimeFormat + 1;
+                    this.SelectedTimeFormat = this.TimeFormats[newIndex2].Value;
+                    break;
+            }
+            timer_Tick(this, null);
         }
 
         #endregion
